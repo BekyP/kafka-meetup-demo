@@ -1,0 +1,4 @@
+set 'auto.offset.reset' = 'earliest';
+
+create stream tmp_select_stream (text varchar, id bigint) WITH (KAFKA_TOPIC='input-test-topic', VALUE_FORMAT='json');
+CREATE STREAM tmp_avro_stream WITH (VALUE_FORMAT='AVRO', KAFKA_TOPIC='tmp_avro_topic', PARTITIONS=1, REPLICAS=1) AS SELECT * FROM tmp_select_stream;

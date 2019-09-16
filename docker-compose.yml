@@ -87,6 +87,8 @@ services:
       KSQL_HOST_NAME: ksql-server
       KSQL_LISTENERS: http://0.0.0.0:8088
       KSQL_KSQL_SCHEMA_REGISTRY_URL: http://schema-registry:8081
+    volumes:
+      - ./utils:/utils
 
   ksql-cli:
     image: confluentinc/cp-ksql-cli:5.3.0
