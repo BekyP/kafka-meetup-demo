@@ -90,16 +90,6 @@ services:
     volumes:
       - ./utils:/utils
 
-  ksql-cli:
-    image: confluentinc/cp-ksql-cli:5.3.0
-    depends_on:
-      - broker
-      - connect
-      - ksql-server
-      - schema-registry
-    entrypoint: /bin/sh
-    tty: true
-
   control-center:
     image: confluentinc/cp-enterprise-control-center:5.2.1
     hostname: control-center
@@ -123,3 +113,18 @@ services:
       CONTROL_CENTER_MONITORING_INTERCEPTOR_TOPIC_PARTITIONS: 1
       CONFLUENT_METRICS_TOPIC_REPLICATION: 1
       PORT: 9021
+
+  pg-docker:
+      image: postgres
+      hostname: postgres
+      restart: unless-stopped
+      environment:
+        POSTGRES_PASSWORD: docker
+      ports:
+      - 5432:5432
+
+  pg-admin:
+      image: thajeztah/pgadmin4
+      restart: unless-stopped
+      ports:
+      - 5050:5050
