@@ -32,6 +32,16 @@ services:
       CONFLUENT_METRICS_ENABLE: 'true'
       CONFLUENT_SUPPORT_CUSTOMER_ID: 'anonymous'
 
+  nifi:
+    image: apache/nifi:1.9.2
+    hostname: nifi
+    restart: on-failure
+    depends_on:
+      - broker
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+
   schema-registry:
     image: confluentinc/cp-schema-registry:5.2.1
     hostname: schema-registry
