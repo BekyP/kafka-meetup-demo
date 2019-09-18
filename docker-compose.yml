@@ -70,6 +70,7 @@ services:
       CONNECT_INTERNAL_VALUE_CONVERTER: org.apache.kafka.connect.json.JsonConverter
       CONNECT_ZOOKEEPER_CONNECT: 'zookeeper:2181'
       CONNECT_PLUGIN_PATH: '/usr/share/java'
+    command: 'apt-get update | apt-get install -y jq'  
     volumes:
       - ./utils:/utils
       - ./dummy-data:/dummy-data
