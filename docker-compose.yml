@@ -141,9 +141,11 @@ services:
       - "8088:8088"
     depends_on:
       - broker
+      - broker2
+      - broker3
       - schema-registry
     environment:
-      KSQL_BOOTSTRAP_SERVERS: broker:29092
+      KSQL_BOOTSTRAP_SERVERS: 'broker:29092,broker2:29091,broker3:29093'
       KSQL_HOST_NAME: ksql-server
       KSQL_LISTENERS: http://0.0.0.0:8088
       KSQL_KSQL_SCHEMA_REGISTRY_URL: http://schema-registry:8081
@@ -156,13 +158,15 @@ services:
     depends_on:
       - zookeeper
       - broker
+      - broker2
+      - broker3
       - connect
       - schema-registry
       - ksql-server
     ports:
       - "9021:9021"
     environment:
-      CONTROL_CENTER_BOOTSTRAP_SERVERS: 'broker:29092'
+      CONTROL_CENTER_BOOTSTRAP_SERVERS: 'broker:29092,broker2:29091,broker3:29093'
       CONTROL_CENTER_ZOOKEEPER_CONNECT: 'zookeeper:2181'
       CONTROL_CENTER_CONNECT_CLUSTER: 'connect:8083'
       CONTROL_CENTER_KSQL_URL: "http://ksql-server:8088"
