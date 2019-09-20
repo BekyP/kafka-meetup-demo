@@ -1,4 +1,4 @@
-package sk.softec.events.osk.nifi.processor;
+package sk.softec.events.nifi.processor;
 
 import lombok.Builder;
 import lombok.Value;

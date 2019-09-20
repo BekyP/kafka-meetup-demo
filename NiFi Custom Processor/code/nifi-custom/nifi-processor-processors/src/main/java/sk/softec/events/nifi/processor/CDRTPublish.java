@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package sk.softec.events.osk.nifi.processor;
+package sk.softec.events.nifi.processor;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
