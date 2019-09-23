@@ -70,7 +70,6 @@ services:
       CONNECT_INTERNAL_VALUE_CONVERTER: org.apache.kafka.connect.json.JsonConverter
       CONNECT_ZOOKEEPER_CONNECT: 'zookeeper:2181'
       CONNECT_PLUGIN_PATH: '/usr/share/java'
-    command: 'apt-get update | apt-get install -y jq'  
     volumes:
       - ./utils:/utils
       - ./dummy-data:/dummy-data
@@ -89,8 +88,10 @@ services:
       KSQL_HOST_NAME: ksql-server
       KSQL_LISTENERS: http://0.0.0.0:8088
       KSQL_KSQL_SCHEMA_REGISTRY_URL: http://schema-registry:8081
+      KSQL_KSQL_EXTENSION_DIR: /ext
     volumes:
       - ./utils:/utils
+      - ./ksql-udf-example/target/ksql-udf-example-1.0-SNAPSHOT.jar:/ext/ksql-udf-example-1.0-SNAPSHOT.jar
 
   control-center:
     image: confluentinc/cp-enterprise-control-center:5.2.1
