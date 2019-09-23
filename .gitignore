@@ -1,6 +1,11 @@
 # hadoop
 docker-.*
 
+# idea
+.*/target/.*
+.*/.idea
+.*/.*.iml
+
 # Compiled class file
 *.class
 
