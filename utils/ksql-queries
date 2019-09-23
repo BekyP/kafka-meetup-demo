@@ -1,6 +1,22 @@
 set 'auto.offset.reset' = 'earliest';
 
-create stream input_stream (timestamp bigint, text varchar, action varchar, browser varchar, device varchar, ip varchar) WITH (KAFKA_TOPIC='input-test-topic', VALUE_FORMAT='json');
+create stream input_stream (txnId varchar, id varchar, from_person varchar, to_person varchar, amount varchar, state varchar, timestamp bigint) WITH (KAFKA_TOPIC='input-test-topic', VALUE_FORMAT='json');
+CREATE STREAM payment_incoming_stream WITH (VALUE_FORMAT='AVRO', KAFKA_TOPIC='payment.incoming', PARTITIONS=1, REPLICAS=1) AS SELECT * FROM input_stream partition by id;
 
-CREATE STREAM android_avro_stream WITH (VALUE_FORMAT='AVRO', KAFKA_TOPIC='android-avro-topic', PARTITIONS=1, REPLICAS=1) AS SELECT IP, MASK_LEFT(ip,10) AS IP_MASKED, timestamp, text, action, browser, device FROM input_stream where device = 'android';
-CREATE STREAM windows_avro_stream WITH (VALUE_FORMAT='AVRO', KAFKA_TOPIC='windows-avro-topic', PARTITIONS=1, REPLICAS=1) AS SELECT IP, MASK_LEFT(ip,10) AS IP_MASKED, timestamp, text, action, browser, device FROM input_stream  where device = 'windows';
+CREATE stream payment_inflight_input_stream WITH (KAFKA_TOPIC = 'payment.incoming', VALUE_FORMAT='avro');
+
+CREATE stream payment_inflight_stream_updated WITH (KAFKA_TOPIC = 'payment.inflight', VALUE_FORMAT='avro') as \
+    SELECT txnId, id, from_person, to_person, cast (amount as bigint) as amount_converted, update_state(state) as state, timestamp \
+    FROM payment_inflight_input_stream;
+
+CREATE table payment_inflight_stream_debit_rekeyed WITH (VALUE_FORMAT='AVRO', KAFKA_TOPIC='payment.inflight', PARTITIONS=1, REPLICAS=1) as \
+    SELECT from_person, to_person, sum(amount_converted) as amount_converted, update_state(state) as state \
+    FROM payment_inflight_stream_updated WINDOW TUMBLING (SIZE 10 seconds) where state = 'debit' group by from_person, to_person, state;
+
+CREATE stream payment_inflight_stream_credit_rekeyed WITH (VALUE_FORMAT='AVRO', KAFKA_TOPIC='payment.inflight', PARTITIONS=1, REPLICAS=1) as \
+    SELECT from_person, to_person, amount_converted, update_state(state) as state, from_person + '|+|' + to_person + '|+|' + state as id \
+    FROM payment_inflight_stream_updated WINDOW TUMBLING (SIZE 10 seconds) where state = 'credit' partition by id;
+
+CREATE stream payment_complete_stream WITH (KAFKA_TOPIC='payment.complete', VALUE_FORMAT='avro', PARTITIONS=1, REPLICAS=1) as \
+    SELECT from_person, to_person, amount_converted, state, from_person + '|+|' + to_person + '|+|' + state as id, \
+    rowtime as timestamp from payment_inflight_stream_updated where state = 'complete' partition by id;
