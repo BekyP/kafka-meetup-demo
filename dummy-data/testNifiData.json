@@ -1,5 +1,5 @@
-{"id": 1, "name": "nifi processor test 1"}
-{"id": 2, "name": "nifi processor test 2"}
-{"id": 3, "name": "nifi processor test 3"}
-{"id": 4, "name": "nifi processor test 4"}
-{"id": 5, "name": "nifi processor test 5"}
+FirstTopic	{"id": 1, "name": "nifi processor test 1"}
+FirstTopic	{"id": 2, "name": "nifi processor test 2"}
+SecondTopic	{"id": 3, "name": "nifi processor test 3"}
+SecondTopic	{"id": 4, "name": "nifi processor test 4"}
+SecondTopic	{"id": 5, "name": "nifi processor test 5"}

@@ -59,7 +59,7 @@ import java.util.Set;
  * to read flowFile row by row and transform and standardize its data.
  */
 
-@Tags({"Softec, Orange Slovensko, CDR, CSV, Apache, Kafka, Put, Send, Message, PubSub, 1.1.0"})
+@Tags({"Softec, CDR, CSV, Apache, Kafka, Put, Send, Message, PubSub, 1.1.0"})
 @CapabilityDescription("Sends the contents of a FlowFile into Apache Kafka. "
     + "The messages to send are individual lines from provided FlowFiles. "
     + "Lines are first converted from mediation specific CSV format into CSV format "
