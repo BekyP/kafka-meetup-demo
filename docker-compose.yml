@@ -187,6 +187,7 @@ services:
       hostname: postgres
       restart: unless-stopped
       environment:
+        POSTGRES_USER: postgres
         POSTGRES_PASSWORD: docker
       ports:
       - 5432:5432
