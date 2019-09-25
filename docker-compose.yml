@@ -86,6 +86,8 @@ services:
       - broker3
     ports:
       - "8089:8080"
+    volumes:
+      - ./nifi-custom-processor/sk-softec-events-nifi-processors-nar-1.1.nar:/opt/nifi/nifi-current/lib/sk-softec-events-nifi-processors-nar-1.1.nar
 
   schema-registry:
     image: confluentinc/cp-schema-registry:5.2.1

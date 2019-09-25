@@ -175,7 +175,7 @@ public class CDRTPublish extends AbstractProcessor {
 
   private List<PropertyDescriptor> descriptors = Collections
       .unmodifiableList(new ArrayList<>(Arrays
-          .asList(TIMESTAMP, TOPIC_PREFIX, KAFKA_BROKERS,
+          .asList(TOPIC_PREFIX, KAFKA_BROKERS,
                   SECURITY_PROTOCOL, JAAS_SERVICE_NAME, USER_PRINCIPAL, USER_KEYTAB)));
 
   private Set<Relationship> relationships = Collections
@@ -231,7 +231,7 @@ public class CDRTPublish extends AbstractProcessor {
     log.debug("Security properties have been loaded.");
 
     MutableBoolean successful = new MutableBoolean();
-    String timeStamp = context.getProperty(TIMESTAMP).evaluateAttributeExpressions(flowFile).getValue();
+    //String timeStamp = context.getProperty(TIMESTAMP).evaluateAttributeExpressions(flowFile).getValue();
     String brokers = context.getProperty(KAFKA_BROKERS).evaluateAttributeExpressions(flowFile).getValue();
     String homogeneous = flowFile.getAttribute("homogeneous");
     String streamType = flowFile.getAttribute("stream_type");
@@ -273,13 +273,14 @@ public class CDRTPublish extends AbstractProcessor {
        * Returns Message which is ready for producer to be sent.
        *
        * @param line one row from flowFile
-       * @param topic topic fredix
+       * @param topic topic prefix
        * @return message which is sent to producer
        * @see Message
        */
       private Message transform(String line, String topic) {
         log.trace("Transform method. line: {}, topic: {}", new String[]{line, topic});
 
+        /*
         line = addTimeStamp(line);
 
         if ("false".equals(homogeneous)) {
@@ -290,6 +291,8 @@ public class CDRTPublish extends AbstractProcessor {
         } else {
           topic += streamType;
         }
+        */
+        topic += "kafka_meetup";
         line = standardize(line);
 
         log.trace("Line has been transformed. line: {}, topic: {}", new String[]{line, topic});
@@ -300,10 +303,12 @@ public class CDRTPublish extends AbstractProcessor {
        * @param line One row from flowFile
        * @return row with added timestamp.
        */
+      /*
       private String addTimeStamp(String line) {
         log.trace("AddTimeStamp method. line: {}", new String[]{line});
         return line + ";" + timeStamp;
       }
+      */
 
       /**
        * Returns standardized row for future processing.
