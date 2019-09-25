@@ -85,7 +85,7 @@ services:
       - broker2
       - broker3
     ports:
-      - "8080:8089"
+      - "8089:8080"
 
   schema-registry:
     image: confluentinc/cp-schema-registry:5.2.1
