@@ -1,9 +1,9 @@
 set 'auto.offset.reset' = 'earliest';
 
 create stream input_stream (txnId varchar, id varchar, from_person varchar, to_person varchar, amount varchar, state varchar, timestamp bigint) \
-    WITH (KAFKA_TOPIC='input-test-topic', VALUE_FORMAT='json', PARTITIONS=1, REPLICAS=1);
+    WITH (KAFKA_TOPIC='nifi_kafka_meetup', VALUE_FORMAT='json', PARTITIONS=1, REPLICAS=1);
 
-CREATE STREAM payment_incoming_stream WITH (VALUE_FORMAT='AVRO', KAFKA_TOPIC='payment.incoming', PARTITIONS=1, REPLICAS=1) AS \
+CREATE STREAM payment_incoming_stream WITH (VALUE_FORMAT='AVRO', KAFKA_TOPIC='payment.incoming') AS \
     SELECT * FROM input_stream partition by id;
 
 CREATE stream payment_inflight_input_stream WITH (KAFKA_TOPIC = 'payment.incoming', VALUE_FORMAT='avro');

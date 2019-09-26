@@ -293,7 +293,7 @@ public class CDRTPublish extends AbstractProcessor {
         }
         */
         topic += "kafka_meetup";
-        line = standardize(line);
+        //line = standardize(line);
 
         log.trace("Line has been transformed. line: {}, topic: {}", new String[]{line, topic});
         return new Message(line, topic.replace("-", "_").toLowerCase());
