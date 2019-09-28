@@ -87,7 +87,8 @@ services:
     ports:
       - "8089:8080"
     volumes:
-      - ./nifi-custom-processor/sk-softec-events-nifi-processors-nar-1.1.nar:/opt/nifi/nifi-current/lib/sk-softec-events-nifi-processors-nar-1.1.nar
+      - ./nifi-custom-processor/code/nifi-custom/nifi-processor-nar/target/sk-nifi-processors-nar-1.1.nar:/opt/nifi/nifi-current/lib/sk-nifi-processors-nar-1.1.nar
+      - ./dummy-data:/opt/nifi/nifi-current/dummy-data
 
   schema-registry:
     image: confluentinc/cp-schema-registry:5.2.1
