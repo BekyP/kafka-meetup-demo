@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package sk.softec.events.nifi.processor;
+package sk.nifi.processor;
 
 import org.apache.nifi.util.TestRunner;
 import org.apache.nifi.util.TestRunners;

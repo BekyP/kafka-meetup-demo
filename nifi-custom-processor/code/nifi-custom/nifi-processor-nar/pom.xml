@@ -17,12 +17,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>sk.softec.events.nifi</groupId>
+        <groupId>sk.nifi</groupId>
         <artifactId>processor</artifactId>
         <version>1.1</version>
     </parent>
 
-    <artifactId>sk-softec-events-nifi-processors-nar</artifactId>
+    <artifactId>sk-nifi-processors-nar</artifactId>
     <version>1.1</version>
     <packaging>nar</packaging>
     <properties>
@@ -32,8 +32,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>sk.softec.events.nifi</groupId>
-            <artifactId>sk-softec-events-nifi-processors</artifactId>
+            <groupId>sk.nifi</groupId>
+            <artifactId>sk-nifi-processors</artifactId>
             <version>1.1</version>
         </dependency>
     </dependencies>

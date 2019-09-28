@@ -19,12 +19,12 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>sk.softec.events.nifi</groupId>
+    <groupId>sk.nifi</groupId>
     <artifactId>processor</artifactId>
     <version>1.1</version>
   </parent>
 
-  <artifactId>sk-softec-events-nifi-processors</artifactId>
+  <artifactId>sk-nifi-processors</artifactId>
   <packaging>jar</packaging>
 
   <dependencies>

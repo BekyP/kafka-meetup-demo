@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package sk.softec.events.nifi.processor;
+package sk.nifi.processor;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -24,7 +24,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.Arrays;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.apache.nifi.components.AllowableValue;
