@@ -74,18 +74,6 @@ public class CDRTPublish extends AbstractProcessor {
   private ComponentLog log;
 
   /**
-   * The value to be added to the end of each row as DATE_DWH_LOAD column.
-   */
-  private static final PropertyDescriptor TIMESTAMP = new PropertyDescriptor.Builder()
-      .name("timestamp")
-      .displayName("Timestamp")
-      .description("The time value to be added to the end of each row as DATE_DWH_LOAD column. Must use format 'yyyyMMddHHmmss'.")
-      .required(true)
-      .addValidator(StandardValidators.NON_EMPTY_VALIDATOR)
-      .expressionLanguageSupported(ExpressionLanguageScope.FLOWFILE_ATTRIBUTES)
-      .build();
-
-  /**
    * A comma-separated list of known Kafka Brokers in the format {@literal <}host{@literal >}:{@literal <}port{@literal >}
    */
   private static final PropertyDescriptor KAFKA_BROKERS = new PropertyDescriptor.Builder()
@@ -230,10 +218,7 @@ public class CDRTPublish extends AbstractProcessor {
     log.debug("Security properties have been loaded.");
 
     MutableBoolean successful = new MutableBoolean();
-    //String timeStamp = context.getProperty(TIMESTAMP).evaluateAttributeExpressions(flowFile).getValue();
     String brokers = context.getProperty(KAFKA_BROKERS).evaluateAttributeExpressions(flowFile).getValue();
-    String homogeneous = flowFile.getAttribute("homogeneous");
-    String streamType = flowFile.getAttribute("stream_type");
     String topic = context.getProperty(TOPIC_PREFIX).evaluateAttributeExpressions(flowFile).getValue();
 
     log.debug("Brokers have been loaded.");
@@ -279,50 +264,12 @@ public class CDRTPublish extends AbstractProcessor {
       private Message transform(String line, String topic) {
         log.trace("Transform method. line: {}, topic: {}", new String[]{line, topic});
 
-        /*
-        line = addTimeStamp(line);
-
-        if ("false".equals(homogeneous)) {
-          String[] parts = line.split(";", 2);
-          topic += parts[0];
-          parts = ArrayUtils.remove(parts, 0);
-          line = String.join(";", parts);
-        } else {
-          topic += streamType;
-        }
-        */
         topic += "kafka_meetup";
-        //line = standardize(line);
 
         log.trace("Line has been transformed. line: {}, topic: {}", new String[]{line, topic});
         return new Message(line, topic.replace("-", "_").toLowerCase());
       }
 
-      /**
-       * @param line One row from flowFile
-       * @return row with added timestamp.
-       */
-      /*
-      private String addTimeStamp(String line) {
-        log.trace("AddTimeStamp method. line: {}", new String[]{line});
-        return line + ";" + timeStamp;
-      }
-      */
-
-      /**
-       * Returns standardized row for future processing.
-       * @param line One row from flowFile
-       * @return standardized row
-       */
-      private String standardize(String line) {
-        log.trace("Standardize method. line: {}", new String[]{line});
-        line = StringUtils.replace(line, "\"", "\"\"");
-        line = StringUtils.replace(line, ";", "\";\"");
-        line = StringUtils.replace(line, "\b", ";");
-        line = StringUtils.replace(line, "\\n", "\n");
-        line = StringUtils.replace(line, "\\\\", "\\");
-        return "\"" + line + "\"";
-      }
     });
 
     if (successful.getValue() == null) {

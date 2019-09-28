@@ -12,9 +12,6 @@ import org.apache.kafka.common.errors.ProducerFencedException;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.apache.nifi.logging.ComponentLog;
 
-// TODO najlepsie by bolo pouzit priamo org.apache.nifi.processors.kafka.pubsub.KafkaProcessorUtils a ostatne triedy,
-//  spravit toto cele ako nadstavbu
-
 public class KafkaProducerImpl {
 
   /**
